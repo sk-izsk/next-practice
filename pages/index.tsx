@@ -4,7 +4,6 @@ import Head from "next/head";
 import ArticleList from "../components/ArticleList";
 
 const Home = ({ articles }) => {
-  console.log("this is data", articles);
   return (
     <div>
       <Head>
@@ -19,9 +18,7 @@ const Home = ({ articles }) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await axios(
-    `https://jsonplaceholder.typicode.com/posts?_limit=6`
-  );
+  const res = await axios(`http://localhost:3000/api/article`);
 
   return {
     props: {

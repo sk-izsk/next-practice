@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GetStaticPaths } from "next";
+import { GetStaticPaths, GetStaticPathsContext, GetStaticProps } from "next";
 import Link from "next/link";
 interface Props {}
 
@@ -18,19 +18,21 @@ const article = ({ article }) => {
 
 export default article;
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const response = await axios(
-//     `https://jsonplaceholder.typicode.com/posts/${context.params.id}`
-//   );
-//   return {
-//     props: {
-//       article: response.data,
-//     },
-//   };
-// };
+export const getStaticProps: GetStaticProps = async (context) => {
+  const response = await axios(
+    `http://localhost:3000/api/article/${context.params.id}`
+  );
+  return {
+    props: {
+      article: response.data,
+    },
+  };
+};
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await axios(`https://jsonplaceholder.typicode.com/posts`);
+export const getStaticPaths: GetStaticPaths = async (
+  context: GetStaticPathsContext
+) => {
+  const res = await axios(`http://localhost:3000/api/article`);
 
   const articles = res.data;
 
